@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import { store } from "./";
 import { useEffect } from "react";
 import { setFavoriteCoins } from "./coins/coins";
+import { Connectwallet } from "@/components/connectwallet/Connectwallet";
 
 interface Props {
     children: React.ReactNode;

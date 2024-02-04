@@ -13,9 +13,7 @@ export default async function PokemonPage() {
   return (
     <div className="flex flex-col">
 
-      <span className="text-5xl my-2">Listado de Pokemons <small className="text-blue-500">Global State</small></span>
-
-      {/* <CoinsGrid coins={ [] }/> */}
+      <span className="text-5xl my-2"><small className="text-blue-500"></small></span>
       <FavoriteCoins />
     </div>
   );

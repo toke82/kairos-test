@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useAppSelector, useAppdDispacth } from "@/store";
+import { useAppSelector, useAppDispatch } from "@/store";
 import { SimpleCoin } from "../interfaces/simple-coin"
 import { toggleFavorite } from "@/store/coins/coins";
 import { IoStarOutline, IoStarSharp } from "react-icons/io5";
@@ -15,7 +15,7 @@ export const CoinRow = ({ coin }: Props) => {
 
     const { id, name } = coin;
     const isFavorite = useAppSelector( state => !!state.coins.favorites[id] );
-    const dispatch = useAppdDispacth();
+    const dispatch = useAppDispatch();
 
     const onToggle = () => {
       dispatch( toggleFavorite(coin) );

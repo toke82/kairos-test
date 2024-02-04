@@ -4,36 +4,30 @@ export class UpdateTokenDto {
 
     private constructor(
         public readonly id: number,
-        public readonly text?: string,
-        public readonly completedAt?: Date,
+        public readonly name?: string,
+        public readonly symbol?: string,
     ){}
 
     get values() {
         const returnObj: {[key: string]: any} = {};
 
 
-        if ( this.text ) returnObj.text = this.text;
-        if ( this.completedAt ) returnObj.completedAt = this.completedAt;
+        if ( this.name ) returnObj.name = this.name;
+        if ( this.symbol ) returnObj.symbol = this.symbol;
 
         return returnObj;
     }
 
     static create( props: {[key: string]: any} ): [string?, UpdateTokenDto?] {
 
-        const { id, text, completedAt } = props;
-        let newCompletedAt = completedAt;
+        const { id, name, symbol } = props;
+
 
         if ( !id || isNaN( Number(id)) ) {
             return ['id must be a valid number'];
         }
 
-        if ( completedAt ) {
-            newCompletedAt = new Date(completedAt);
-            if ( newCompletedAt.toString() === 'Invalid Date' ) {
-                return ['CompletedAt must be a valid date']
-            }
-        }
 
-        return [undefined, new UpdateTokenDto(id, text, newCompletedAt)];
+        return [undefined, new UpdateTokenDto(id, name, symbol)];
     }
 }

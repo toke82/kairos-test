@@ -16,6 +16,7 @@ export class TokenRoutes {
         const tokenController = new TokensController(tokenRepository);
 
         router.get('/', tokenController.getTokens );
+        router.get('/price', tokenController.getPriceTokens );
         router.get('/:id', tokenController.getTokensById );
         router.post('/', tokenController.createToken );        
         router.put('/:id', tokenController.updateToken );

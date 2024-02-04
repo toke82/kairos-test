@@ -12,3 +12,4 @@ export * from './use-cases/token/update-token';
 export * from './use-cases/token/delete-token';
 export * from './use-cases/token/get-token';
 export * from './use-cases/token/get-tokens';
+export * from './use-cases/token/get-price-tokens';

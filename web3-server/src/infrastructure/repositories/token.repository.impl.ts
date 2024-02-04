@@ -15,6 +15,10 @@ export class TokenRepositoryImpl implements TokenRepository {
         return this.datasource.getAll();
     }
 
+    getAllPrices(): Promise<TokenEntity[]> {
+        return this.datasource.getAllPrices();
+    }
+
     findById(id: number): Promise<TokenEntity> {
         return this.datasource.findById( id );
     }

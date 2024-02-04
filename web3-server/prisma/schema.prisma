@@ -13,6 +13,11 @@ datasource db {
 
 model token {
   id Int @id @default(autoincrement())
-  text String @db.VarChar
-  completedAt DateTime? @db.Timestamp()
+  name String @db.VarChar
+  symbol String @db.VarChar
+  current_price Decimal? @db.Money
+  market_cap Float? @db.Real
+  total_volume Float? @db.Real
+  market_cap_change_percentage_24h Float? @db.Real
+  last_updated_at DateTime? @db.Timestamp()
 }

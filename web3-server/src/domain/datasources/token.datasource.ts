@@ -8,6 +8,7 @@ export abstract class TokenDatasource {
 
     //todo: paginacion
     abstract getAll(): Promise<TokenEntity[]>;
+    abstract getAllPrices(): Promise<TokenEntity[]>;
 
     abstract findById( id: number ): Promise<TokenEntity>;
     abstract updateById( updateTokenDto: UpdateTokenDto ): Promise<TokenEntity>;

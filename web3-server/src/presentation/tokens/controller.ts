@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { CreateTokenDto, UpdateTokenDto } from "../../domain/dtos";
-import { CreateToken, CustomError, DeleteToken, GetToken, GetTokens, TokenRepository, UpdateToken } from "../../domain";
+import { CreateToken, CustomError, DeleteToken, GetToken, GetTokens, GetPriceTokens, TokenRepository, UpdateToken } from "../../domain";
 
 
 
@@ -24,6 +24,14 @@ export class TokensController {
     public getTokens = (req:Request, res:Response) => {
 
         new GetTokens( this.tokenRepository )
+            .execute()
+            .then( tokens => res.json(tokens ))
+            .catch( error => this.handleError(res, error) );
+    }
+
+    public getPriceTokens = (req:Request, res:Response) => {
+
+        new GetPriceTokens( this.tokenRepository )
             .execute()
             .then( tokens => res.json(tokens ))
             .catch( error => this.handleError(res, error) );

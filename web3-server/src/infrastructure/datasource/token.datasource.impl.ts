@@ -14,9 +14,21 @@ export class TokenDatasourceImpl implements TokenDatasource {
 
     async getAll(): Promise<TokenEntity[]> {
         const tokens = await prisma.token.findMany()
-
+        
         return tokens.map( token => TokenEntity.fromObject(token) );
     }
+
+    async getAllPrices(): Promise<TokenEntity[]> {
+        const tokens = await prisma.token.findMany();
+
+        const tokens_n = tokens.map( token => token.name).toString();
+ 
+        const response = await fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${tokens_n}&order=market_cap_desc&per_page=100&page=1&sparkline=false&locale=en`)
+            .then( res => res.json() )
+            .catch(err => console.log('Solicitud fallida', err));
+        return response;
+    }   
+
 
     async findById(id: number): Promise<TokenEntity> {
         const token = await prisma.token.findFirst({

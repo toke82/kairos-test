@@ -1,10 +1,10 @@
 import { CoinGrid, CoinsResponse, SimpleCoin } from "@/coins";
 
 
-const getCoins = async():Promise<SimpleCoin> => {
-  const data:CoinsResponse = await fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false&locale=en`)
-    .then( res => res.json() );
 
+const getCoins = async():Promise<SimpleCoin> => {
+  const data:CoinsResponse = await fetch(`http://localhost:4000/api/tokens/price`)
+    .then( res => res.json() );
   return data;
 }
 

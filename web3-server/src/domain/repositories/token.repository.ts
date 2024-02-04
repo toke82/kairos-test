@@ -8,6 +8,7 @@ export abstract class TokenRepository {
 
     //todo: paginacion
     abstract getAll(): Promise<TokenEntity[]>;
+    abstract getAllPrices(): Promise<TokenEntity[]>;
 
     abstract findById( id: number ): Promise<TokenEntity>;
     abstract updateById( updateTokenDto: UpdateTokenDto ): Promise<TokenEntity>;

@@ -1,3 +1,4 @@
+export { Connectwallet } from './connectwallet/Connectwallet';
 
 
 export { Sidebar } from './sidebar/Sidebar';
