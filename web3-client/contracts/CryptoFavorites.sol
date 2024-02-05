@@ -1,52 +1,64 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.9;
-
+pragma solidity ^0.8.19;
 
 contract CryptoFavorites {
-    // Estructura para representar la lista de criptomonedas favoritas de un usuario
     struct FavoritesList {
-        mapping (string => bool) isFavorite; // Mapeo para almacenar si una criptomoneda es favorita
-        string[] favoriteCryptos; // Lista de criptomonedas favoritas
+        string[] favoriteCryptos;
     }
 
-    // Mapeo para almacenar la lista de favoritos de cada usuario
-    mapping (address => FavoritesList) private userFavorites;
+    mapping(address => FavoritesList) private userFavorites;
 
-    // Eventos para notificar cambios en la lista de favoritos
-    event CryptoAdded(address indexed user, string cryptoId);
-    event CryptoRemoved(address indexed user, string cryptoId);
+    event CryptoAdded(address indexed user, string indexed cryptoId);
+    event CryptoRemoved(address indexed user, string indexed cryptoId);
 
-    // Función para añadir una criptomoneda a la lista de favoritos del usuario
+    modifier hasFavorites() {
+        require(userFavorites[msg.sender].favoriteCryptos.length > 0, "No favorites found for the user");
+        _;
+    }
+
     function addCryptoToFavorites(string memory cryptoId) public {
-        require(!userFavorites[msg.sender].isFavorite[cryptoId], "Crypto already added to favorites");
-        
-        userFavorites[msg.sender].isFavorite[cryptoId] = true;
+        require(bytes(cryptoId).length > 0, "CryptoId cannot be empty");
+        require(!isCryptoInFavorites(msg.sender, cryptoId), "Crypto already added to favorites");
+
         userFavorites[msg.sender].favoriteCryptos.push(cryptoId);
 
         emit CryptoAdded(msg.sender, cryptoId);
     }
 
-    // Función para eliminar una criptomoneda de la lista de favoritos del usuario
-    function removeCryptoFromFavorites(string memory  cryptoId) public {
-        require(userFavorites[msg.sender].isFavorite[cryptoId], "Crypto not found in favorites");
+    function removeCryptoFromFavorites(string memory cryptoId) public {
+        require(userFavorites[msg.sender].favoriteCryptos.length > 0, "No favorites found for the user");
+        require(isCryptoInFavorites(msg.sender, cryptoId), "Crypto not found in favorites");
 
-        // Eliminar la criptomoneda de la lista
-        for (uint i = 0; i < userFavorites[msg.sender].favoriteCryptos.length; i++) {
-            if (keccak256(abi.encodePacked(userFavorites[msg.sender].favoriteCryptos[i])) == keccak256(abi.encodePacked(cryptoId))) {
-                userFavorites[msg.sender].favoriteCryptos[i] = userFavorites[msg.sender].favoriteCryptos[userFavorites[msg.sender].favoriteCryptos.length - 1];
-                userFavorites[msg.sender].favoriteCryptos.pop();
-                break;
-            }
+        uint indexToDelete = getIndexToDelete(msg.sender, cryptoId);
+
+        if (indexToDelete < userFavorites[msg.sender].favoriteCryptos.length - 1) {
+            userFavorites[msg.sender].favoriteCryptos[indexToDelete] = userFavorites[msg.sender].favoriteCryptos[userFavorites[msg.sender].favoriteCryptos.length - 1];
         }
 
-        // Actualizar el mapeo de favoritos
-        userFavorites[msg.sender].isFavorite[cryptoId] = false;
+        userFavorites[msg.sender].favoriteCryptos.pop();
 
         emit CryptoRemoved(msg.sender, cryptoId);
     }
 
-    // Función para obtener la lista de criptomonedas favoritas de un usuario
-    function getFavoritesList() public view returns (string[] memory) {
+    function getFavoritesList() public view hasFavorites returns (string[] memory) {
         return userFavorites[msg.sender].favoriteCryptos;
+    }
+
+    function isCryptoInFavorites(address user, string memory cryptoId) public view returns (bool) {
+        for (uint i = 0; i < userFavorites[user].favoriteCryptos.length; i++) {
+            if (keccak256(abi.encodePacked(userFavorites[user].favoriteCryptos[i])) == keccak256(abi.encodePacked(cryptoId))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function getIndexToDelete(address user, string memory cryptoId) private view returns (uint) {
+        for (uint i = 0; i < userFavorites[user].favoriteCryptos.length; i++) {
+            if (keccak256(abi.encodePacked(userFavorites[user].favoriteCryptos[i])) == keccak256(abi.encodePacked(cryptoId))) {
+                return i;
+            }
+        }
+        revert("Crypto not found in favorites");
     }
 }

@@ -1,22 +1,22 @@
 import { ethers } from "hardhat";
 
 async function main() {
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const unlockTime = currentTimestampInSeconds + 60;
 
-  const lockedAmount = ethers.parseEther("0.001");
+  /*
+  A ContractFactory in ether.js is an abstraction used to deploy new smart contracts,
+  so CryptoFavoritesContract here is a factory for instance our CryptoFavorites contract. 
+  */
+  const CryptoFavoritesFactory = await ethers.getContractFactory('CryptoFavorites');
 
-  const lock = await ethers.deployContract("Lock", [unlockTime], {
-    value: lockedAmount,
-  });
+  // here deploy the contract
+  const CryptoFavorites = await CryptoFavoritesFactory.deploy();
 
-  await lock.waitForDeployment();
+  // Wait for it to finish the deployment
+  await CryptoFavorites.waitForDeployment();
 
-  console.log(
-    `Lock with ${ethers.formatEther(
-      lockedAmount
-    )}ETH and unlock timestamp ${unlockTime} deployed to ${lock.target}`
-  );
+  const address = await CryptoFavorites.getAddress();
+
+  console.log('Contract displayed at the address:', address);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
