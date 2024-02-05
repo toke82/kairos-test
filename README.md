@@ -63,6 +63,11 @@ Run the server
   npm run dev
 ```
 
+## Deployment smart contract (Poligon Mumbai)
+
+Contract displayed at the address: 0xABF0B515FDeDf03D31C8d14EE0c7aFB7513220E4
+
+
 ## Tech Stack
 
 **Client:** React, Redux ToolKit, NextJS TailwindCSS
