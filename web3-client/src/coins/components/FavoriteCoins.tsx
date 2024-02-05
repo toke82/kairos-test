@@ -2,9 +2,7 @@
 
 import { useAppSelector } from "@/store";
 import { CoinGrid } from "./CoinGrid";
-import { useEffect, useState } from "react";
-import { IoHeartOutline, IoStarOutline } from "react-icons/io5";
-import coins from '@/store/coins/coins';
+import { IoStarOutline } from "react-icons/io5";
 
 export const FavoriteCoins = () => {
 

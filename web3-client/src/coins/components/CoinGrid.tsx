@@ -1,7 +1,6 @@
-import Link from "next/link";
 import { SimpleCoin } from "../interfaces/simple-coin";
 import { CoinRow } from "./CoinRow";
-import Image from "next/image";
+import { IoLogoBitcoin } from "react-icons/io5";
 
 
 interface Props {
@@ -35,9 +34,18 @@ export const CoinGrid = ({ coins }: Props) => {
           })}
           </tbody>
           </table>
-        ): null }
+        ): (<NoCryptoCurrencies />) }
 
       </div>
     </>
+  )
+}
+
+export const NoCryptoCurrencies = () => {
+  return(
+    <div className="flex flex-col h-[50vh] items-center justify-center">
+      <IoLogoBitcoin size={100} className="text-red-500" />
+      <span>No hay cryptomonedas</span>
+    </div>
   )
 }
